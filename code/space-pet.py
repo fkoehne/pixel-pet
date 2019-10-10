@@ -1,47 +1,44 @@
-from sense_hat import SenseHat
+from sense_hat import SenseHat # https://pythonhosted.org/sense-hat/api/
 from time import sleep
 
 sense = SenseHat()
 
-p = (204, 0, 204) # Pink
-g = (0, 102, 102) # Gray
-w = (200, 200, 200) # White
-y = (204, 204, 0) # Yellow
-e = (0, 0, 0) # Empty
-
-pet1 = [
-    e, e, e, e, e, e, e, e,
-    p, e, e, e, e, e, e, e,
-    e, p, e, e, p, e, p, e,
-    e, p, g, g, p, w, w, e,
-    e, g, g, g, w, y, w, y,
-    e, g, g, g, g, w, w, e,
-    e, g, e, g, e, g, e, e,
-    e, e, e, e, e, e, e, e
-    ]
-
-pet2 = [
-    e, e, e, e, e, e, e, e,
-    p, e, e, e, e, e, e, e,
-    e, p, e, e, p, e, p, e,
-    e, p, g, g, p, w, w, e,
-    e, g, g, g, w, y, w, y,
-    e, g, g, g, g, w, w, e,
-    e, e, g, e, g, e, e, e,
-    e, e, e, e, e, e, e, e
-    ]
-
 sense.clear(0, 0, 0)
-x, y, z = sense.get_accelerometer_raw().values()
+neutral = sense.load_image("img/neutral.png")
+blinking = sense.load_image("img/blinking.png")
+eyesLeft = sense.load_image("img/EyesLeft.png")
+eyesRight = sense.load_image("img/EyesRight.png")
+bright = sense.load_image("img/8x8face.png")
 
-def walking():
-    for i in range(10):
-        sense.set_pixels(pet1)
-        sleep(0.5)
-        sense.set_pixels(pet2)
-        sleep(0.5)
 
-while x<2 and y<2 and z<2:
-    x, y, z = sense.get_accelerometer_raw().values()
+sense.set_pixels(neutral)
+def animate():        
+        sense.set_pixels(neutral)
+        sleep(2)
+        sense.set_pixels(blinking)
+        sleep(0.4)
+        sense.set_pixels(neutral)
+        sleep(2.3)
+        sense.set_pixels(eyesLeft)
+        sleep(1.5)
+        sense.set_pixels(blinking)
+        sleep(0.3)
+        sense.set_pixels(eyesRight)
+        sleep(2)
 
-walking()
+h2 = 0        
+def reactToMovement():  
+        x, y, z = sense.get_accelerometer_raw().values()
+        #h = sense.get_humidity()       
+        #print(h)
+        if x>-0.5 and x <0.5:
+                sense.set_pixels(neutral)
+        if x<=-0.5: 
+                sense.set_pixels(eyesLeft)
+        if x>=0.5: 
+                sense.set_pixels(eyesRight)
+        sleep(0.1)
+
+while True:
+    animate()
+    reactToMovement()
