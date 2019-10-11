@@ -6,11 +6,13 @@ sense = SenseHat()
 app = Flask(__name__)
 
 sense.clear(0, 0, 0)
-neutral = sense.load_image("img/neutral.png")
-blinking = sense.load_image("img/blinking.png")
-eyesLeft = sense.load_image("img/EyesLeft.png")
-eyesRight = sense.load_image("img/EyesRight.png")
-bright = sense.load_image("img/8x8face.png")
+images = [
+    sense.load_image("img/neutral.png"),
+    sense.load_image("img/blinking.png"),
+    sense.load_image("img/EyesLeft.png"),
+    sense.load_image("img/EyesRight.png"),
+    sense.load_image("img/8x8face.png")
+]
 
 @app.route('/')
 def index():
@@ -22,9 +24,10 @@ def get_temperature():
 
 @app.route('/api/displayimage/<img>', methods=['GET'])
 def displayimage(img):
+    img = int(img)
     if img < 0:
         abort(404)
-    sense.set_pixels(neutral) # TODO get faces from a map
+    sense.set_pixels(images[img])
     return 'done' 
 
 if __name__ == '__main__':
