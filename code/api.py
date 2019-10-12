@@ -1,11 +1,13 @@
 # Following along https://blog.miguelgrinberg.com/post/designing-a-restful-api-with-python-and-flask
 from flask import Flask
+from gtts import gTTS
+import os
 from sense_hat import SenseHat
 sense = SenseHat()
 
 app = Flask(__name__)
 
-sense.clear(0, 0, 0)
+
 images = [
     sense.load_image("img/neutral.png"),
     sense.load_image("img/blinking.png"),
@@ -22,6 +24,15 @@ def index():
 def get_temperature():
     return str(sense.get_temperature())
 
+@app.route('/api/say/<s>', methods=['GET'])
+def say(s):
+    # define variables
+    tts = gTTS(s, 'de')
+    file = "speech.mp3"
+    tts.save(file)
+    os.system("mpg123 " + file)
+    return 'beep'
+
 @app.route('/api/displayimage/<img>', methods=['GET'])
 def displayimage(img):
     img = int(img)
@@ -29,6 +40,8 @@ def displayimage(img):
         abort(404)
     sense.set_pixels(images[img])
     return 'done' 
+
+displayimage(0)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)
