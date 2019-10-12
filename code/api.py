@@ -2,19 +2,21 @@
 from flask import Flask
 from gtts import gTTS
 import os
+from time import sleep
 from sense_hat import SenseHat
+
 sense = SenseHat()
 
-app = Flask(__name__)
-
-
 images = [
-    sense.load_image("img/neutral.png"),
-    sense.load_image("img/blinking.png"),
-    sense.load_image("img/EyesLeft.png"),
-    sense.load_image("img/EyesRight.png"),
-    sense.load_image("img/8x8face.png")
+    sense.load_image("img/neutral.png"),        # 0
+    sense.load_image("img/blinking.png"),       # 1
+    sense.load_image("img/blinking-half.png"),  # 2
+    sense.load_image("img/EyesLeft.png"),       # 3
+    sense.load_image("img/EyesRight.png"),      # 4 
+    sense.load_image("img/alert.png")           # 5
 ]
+
+app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -41,7 +43,31 @@ def displayimage(img):
     sense.set_pixels(images[img])
     return 'done' 
 
-displayimage(0)
+@app.route('/api/blink', methods=['GET'])
+def blink():
+    doBlink()
+    return 'done' 
 
+# Initial blinking on startup
+def doBlink():        
+        sense.set_pixels(images[1])
+        sleep(0.2)
+        sense.set_pixels(images[2])
+        sleep(0.1)
+        sense.set_pixels(images[5])
+        sleep(0.1)
+        sense.set_pixels(images[0])         
+        sleep(0.1)
+        sense.set_pixels(images[2])
+        sleep(0.1)
+        sense.set_pixels(images[1])
+        sleep(0.1)
+        sense.set_pixels(images[2])
+        sleep(0.1)
+        sense.set_pixels(images[0])         
+
+doBlink()        
+
+# Run the server and wait for http commands
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)
