@@ -1,7 +1,8 @@
 # Following along https://blog.miguelgrinberg.com/post/designing-a-restful-api-with-python-and-flask
+import subprocess
+import os
 from flask import Flask
 from gtts import gTTS
-import os
 from time import sleep
 from sense_hat import SenseHat
 
@@ -28,18 +29,19 @@ def get_temperature():
 
 @app.route('/api/say/<s>', methods=['GET'])
 def say(s):
-    # define variables
+    # Getting the speech synthesis takes a moment, hence we play a prepared sound asap and async 
+    # to make the system appear more responsive and get some attention.
+    subprocess.Popen("mpg123 " + "sounds/397253__screamstudio__robot_part1.mp3", shell=True, stderr=subprocess.STDOUT)
+    # Then we encode and use the text originally provided
     tts = gTTS(s, 'de')
     file = "speech.mp3"
     tts.save(file)
-    os.system("mpg123 " + file)
+    subprocess.Popen("mpg123 " + file, shell=True, stderr=subprocess.STDOUT)
     return 'beep'
 
 @app.route('/api/displayimage/<img>', methods=['GET'])
 def displayimage(img):
     img = int(img)
-    if img < 0:
-        abort(404)
     sense.set_pixels(images[img])
     return 'done' 
 
@@ -66,6 +68,8 @@ def doBlink():
         sleep(0.1)
         sense.set_pixels(images[0])         
 
+# Make some noise
+subprocess.Popen("mpg123 " + "sounds/397253__screamstudio__robot_part1.mp3", shell=True, stderr=subprocess.STDOUT)
 doBlink()        
 
 # Run the server and wait for http commands
