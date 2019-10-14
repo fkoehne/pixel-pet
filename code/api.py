@@ -50,6 +50,13 @@ def blink():
     doBlink()
     return 'done' 
 
+@app.route('/api/shine', methods=['GET'])
+def shine():
+    for x in range (0,8):
+        for y in range (0,8):
+            sense.set_pixel(y,x, 250, 250, 250)
+    return 'done' 
+
 # Initial blinking on startup
 def doBlink():        
         sense.set_pixels(images[1])
