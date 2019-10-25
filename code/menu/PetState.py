@@ -1,12 +1,12 @@
-from aenum import Enum, MultiValue
-class PetState(Enum):
-    
-    _init_ = 'value fullname'
-    _settings_ = MultiValue
 
+class PetState():
+        
     FACE = 1, 'Robot Face'
     RADIO = 2, 'Web Radio'
     LIGHT = 3, "Flashlight"
+
+    def __init__(self,value):
+        self.value = value        
 
     def __int__(self):
         return self.value

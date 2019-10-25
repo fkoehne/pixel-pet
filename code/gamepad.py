@@ -1,17 +1,23 @@
 # Following along the lines of https://ericgoebelbecker.com/2015/06/raspberry-pi-and-gamepad-programming-part-1-reading-the-device/
 from evdev import InputDevice, categorize, ecodes, KeyEvent
 from select import select
-from PetState import PetState
+from menu import PetState
+from menu import Radio
 from sense_hat import SenseHat # https://pythonhosted.org/sense-hat/api/
 
 sense = SenseHat()
 
+# Each menu item is to be implemented in a separate class
+radio = Radio(sense)
+
 sense.clear(0, 0, 0)
+
+# TODO: Relocate to a robotFace class
 neutral = sense.load_image("img/neutral.png")
 alert = sense.load_image("img/alert.png")
 eyesLeft = sense.load_image("img/EyesLeft.png")
 eyesRight = sense.load_image("img/EyesRight.png")
-radio = sense.load_image("img/radio.png")
+
 
 state = PetState(1)
 sense.set_pixels(neutral)
@@ -26,11 +32,12 @@ while True:
         if event.value == 1: # Press-Events (i.e. ignore release-events and arrows)                             
             print "Value " + str(event.value) + ", Type " + str(event.type) + ", Code " +str(event.code)  
             if event.code == 296: # SELECT
-                sense.set_pixels(radio)              
+                radio.select()              
                 state = PetState.__increment__(state)
                 print state
                 print PetState.__int__(state)
             if event.code == 290:
+                radio.deselect()
                 sense.set_pixels(neutral)
             if event.code == 289:
                 sense.set_pixels(alert)
