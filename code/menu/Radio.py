@@ -1,7 +1,9 @@
 from evdev import InputDevice, categorize, ecodes, KeyEvent
 from select import select
 from sense_hat import SenseHat # https://pythonhosted.org/sense-hat/api/
+import subprocess
 
+# A simple streaming radio
 class Radio():
     
     def __init__(self, sense):
@@ -10,8 +12,8 @@ class Radio():
 
     def select(self):
         self.sense.set_pixels(self.image) 
-        # cvlc http://wdr-kiraka-live.icecast.wdr.de/wdr/kiraka/live/mp3/128/stream.mp3 
+        self.radioProcess = subprocess.Popen("cvlc http://wdr-kiraka-live.icecast.wdr.de/wdr/kiraka/live/mp3/128/stream.mp3", shell=True, stderr=subprocess.STDOUT)    
 
     def deselect(self):
-        self.sense.set_pixels(self.image) 
-        # Stop streaming
+        self.radioProcess.terminate()
+        subprocess.Popen("killall vlc", shell=True, stderr=subprocess.STDOUT)    

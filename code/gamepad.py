@@ -3,25 +3,17 @@ from evdev import InputDevice, categorize, ecodes, KeyEvent
 from select import select
 from menu import PetState
 from menu import Radio
+from menu import RobotFace
 from sense_hat import SenseHat # https://pythonhosted.org/sense-hat/api/
 
 sense = SenseHat()
 
 # Each menu item is to be implemented in a separate class
+state = PetState(1)
 radio = Radio(sense)
+robotFace = RobotFace(sense)
 
 sense.clear(0, 0, 0)
-
-# TODO: Relocate to a robotFace class
-neutral = sense.load_image("img/neutral.png")
-alert = sense.load_image("img/alert.png")
-eyesLeft = sense.load_image("img/EyesLeft.png")
-eyesRight = sense.load_image("img/EyesRight.png")
-
-
-state = PetState(1)
-sense.set_pixels(neutral)
-print (state)
 
 gamepad = InputDevice("/dev/input/event0")
 print(gamepad)
@@ -32,19 +24,13 @@ while True:
         if event.value == 1: # Press-Events (i.e. ignore release-events and arrows)                             
             print "Value " + str(event.value) + ", Type " + str(event.type) + ", Code " +str(event.code)  
             if event.code == 296: # SELECT
+                robotFace.deselect()              
                 radio.select()              
-                state = PetState.__increment__(state)
-                print state
-                print PetState.__int__(state)
+                state = PetState.__increment__(state)                
             if event.code == 290:
-                radio.deselect()
-                sense.set_pixels(neutral)
-            if event.code == 289:
-                sense.set_pixels(alert)
-            if event.code == 297:
-                sense.set_pixels(eyesLeft)
-            if event.code == 288:
-                sense.set_pixels(eyesRight)
+                radio.deselect()              
+                robotFace.select()              
+                state = PetState.__increment__(state)                
         if event.value == 127 or event.value == 255:
             print "Value " + str(event.value) + ", Type " + str(event.type) + ", Code " +str(event.code)                              
 
