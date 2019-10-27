@@ -1,10 +1,11 @@
+from BaseMenuItem import BaseMenuItem
 from evdev import InputDevice, categorize, ecodes, KeyEvent
 from select import select
 from sense_hat import SenseHat # https://pythonhosted.org/sense-hat/api/
 import subprocess
 
 # A simple streaming radio
-class Radio():
+class Radio(BaseMenuItem):
     
     def __init__(self, sense):
         self.sense = sense
@@ -16,4 +17,5 @@ class Radio():
 
     def deselect(self):
         self.radioProcess.terminate()
-        subprocess.Popen("killall vlc", shell=True, stderr=subprocess.STDOUT)    
+        subprocess.Popen("killall vlc", shell=True, stderr=subprocess.STDOUT) 
+       

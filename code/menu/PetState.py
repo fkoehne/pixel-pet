@@ -12,16 +12,23 @@ class PetState():
         self.stateList = (self.FACE, self.RADIO)
         
         # Start with the face
-        self.current = self.FACE  
+        self.current = self.FACE
+        self.current[1].select()  
 
-    def __increment__(self):
-        stateCount = 2
+
+    def increment(self):
+        """Cycles through the robot states sequentially and
+           triggers their deselection and selection.
+
+        """        
         self.current[1].deselect()
         nextState = self.current[0] + 1
-        if nextState > stateCount:
+        if nextState > len(self.stateList):
             nextState = 1
         
         self.current = self.stateList[nextState - 1]
         self.current[1].select()
 
+    def signal(self, code):
+        self.current[1].signal(code)
 
