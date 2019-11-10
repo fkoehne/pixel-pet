@@ -32,3 +32,8 @@ class PetState():
     def signal(self, code):
         self.current[1].signal(code)
 
+    def sleep(self):
+        self.current[1].deselect()
+        self.current = self.FACE
+        self.current[1].select()
+
