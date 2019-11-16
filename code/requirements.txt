@@ -1,0 +1,10 @@
+time
+evdev
+select
+sense_hat
+subprocess
+os
+flask
+gtts
+numpy
+matplotlib

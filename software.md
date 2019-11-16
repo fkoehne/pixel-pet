@@ -28,4 +28,4 @@ Type the following command into a **Terminal** window and press **Enter** to clo
 git clone https://github.com/jrobinson-uk/RPi_8x8GridDraw
 ```
 
-
+You can auto-run your pet like this: https://www.instructables.com/id/Raspberry-Pi-Launch-Python-script-on-startup/
