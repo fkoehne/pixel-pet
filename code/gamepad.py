@@ -16,14 +16,19 @@ print(gamepad)
 
 # After a while, the pet robot will go to sleep
 # if there is no interaction
-now = time.monotonic()
+now = time.time()
 futureSleepTime = now + 1 * 30 * 60 # Half an hour sleep timer
 
+# Also: We will need wakeup calls
+
 while True:
-     time.sleep(0.1)
+     # time.sleep(0.1)
      # Sleep if nothing happend during the last sleep time
-     if time.monotonic() < futureSleepTime:    
-         state.sleep()
+     # if time.time() < futureSleepTime:    
+     #    state.sleep()
+
+     # Whatever state we are in, it gets control first
+     state.loop()
 
      r,w,x = select([gamepad], [], [])
      for event in gamepad.read():                

@@ -17,5 +17,8 @@ class Radio(BaseMenuItem):
 
     def deselect(self):
         self.radioProcess.terminate()
-        subprocess.Popen("killall vlc", shell=True, stderr=subprocess.STDOUT) 
+        subprocess.Popen("killall vlc", shell=True, stderr=subprocess.STDOUT)
+        
+    def loop(self):
+        pass
        

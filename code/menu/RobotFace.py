@@ -23,12 +23,15 @@ class RobotFace(BaseMenuItem):
                        sense.load_image("img/walker/5.png")]
         self.treasures = [sense.load_image("img/walker/Flower.png"),
                           sense.load_image("img/walker/Flower2.png"),
-                          sense.load_image("img/walker/Flower3.png")]               
+                          sense.load_image("img/walker/Flower3.png")]
 
     def select(self):
         self.doBlink()
         
     def deselect(self):
+        pass # stop scheduled jobs
+
+    def loop(self):
         pass
 
     def doBlink(self):        
@@ -73,4 +76,4 @@ class RobotFace(BaseMenuItem):
             self.sense.set_pixels(self.walker[x])
             print x
             sleep(0.2)
-        
+            
