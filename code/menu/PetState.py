@@ -1,6 +1,7 @@
 
 from Radio import Radio
 from RobotFace import RobotFace
+from Life import Life
 
 class PetState():
 
@@ -8,11 +9,12 @@ class PetState():
         self.sense = sense
         self.FACE = 1, RobotFace(sense)
         self.RADIO = 2, Radio(sense)
-        
-        self.stateList = (self.FACE, self.RADIO)
+        self.LIFE = 3, Life(sense, 8, 8)
+
+        self.stateList = (self.FACE, self.RADIO, self.LIFE)
         
         # Start with the face
-        self.current = self.RADIO
+        self.current = self.LIFE
         self.current[1].select()  
 
 
