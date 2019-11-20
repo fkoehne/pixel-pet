@@ -12,7 +12,7 @@ class PetState():
         self.stateList = (self.FACE, self.RADIO)
         
         # Start with the face
-        self.current = self.FACE
+        self.current = self.RADIO
         self.current[1].select()  
 
 
