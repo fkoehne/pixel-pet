@@ -13,6 +13,7 @@ class Radio(BaseMenuItem):
 
     def select(self):
         self.sense.set_pixels(self.image) 
+        self.playLocal()
         self.radioProcess = subprocess.Popen("cvlc http://wdr-kiraka-live.icecast.wdr.de/wdr/kiraka/live/mp3/128/stream.mp3", shell=True, stderr=subprocess.STDOUT)    
 
     def deselect(self):
@@ -21,4 +22,15 @@ class Radio(BaseMenuItem):
         
     def loop(self):
         pass
+
+    # Let the radio react to gamepad activity
+    def signal(self, code):
+        print str(self.__class__) + " received Code " + str(code)
+        self.deselect()
+        if code == 291: # Green button             
+            self.playLocal()
+
+    def playLocal(self):
+        subprocess.Popen("mpg123 " + "sounds/397253__screamstudio__robot_part1.mp3", shell=True, stderr=subprocess.STDOUT)       
+        return 'beep'
        

@@ -4,6 +4,7 @@ from select import select
 from menu import PetState
 from sense_hat import SenseHat # https://pythonhosted.org/sense-hat/api/
 import time
+import re 
 
 sense = SenseHat()
 
@@ -11,8 +12,17 @@ sense = SenseHat()
 sense.clear(0, 0, 0)
 state = PetState(sense)
 
-gamepad = InputDevice("/dev/input/event0")
+try:
+    gamepad = InputDevice("/dev/input/event0")
+except OSError:
+    print("No gamepad found at event0. Trying event1")
+    try:
+        gamepad = InputDevice("/dev/input/event1")
+    except OSError:
+        print("No gamepad found at event1 either")
+
 print(gamepad)
+assert(re.search("gamepad", str(gamepad)))
 
 # After a while, the pet robot will go to sleep
 # if there is no interaction

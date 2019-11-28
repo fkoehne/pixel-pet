@@ -11,6 +11,7 @@ followed by:
 
 ```bash
 sudo apt-get upgrade
+sudo apt-get mpg123
 ```
 
 # Clone this repository
