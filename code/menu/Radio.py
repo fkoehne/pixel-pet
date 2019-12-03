@@ -14,7 +14,7 @@ class Radio(BaseMenuItem):
     def select(self):
         self.sense.set_pixels(self.image) 
         self.playLocal()
-        self.radioProcess = subprocess.Popen("cvlc http://wdr-kiraka-live.icecast.wdr.de/wdr/kiraka/live/mp3/128/stream.mp3", shell=True, stderr=subprocess.STDOUT)    
+        self.radioProcess = subprocess.Popen("cvlc https://wdr-diemaus-live.icecastssl.wdr.de/wdr/diemaus/live/mp3/128/stream.mp3", shell=True, stderr=subprocess.STDOUT)    
 
     def deselect(self):
         self.radioProcess.terminate()
