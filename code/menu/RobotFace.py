@@ -23,7 +23,9 @@ class RobotFace(BaseMenuItem):
                        sense.load_image("img/walker/5.png")]
         self.treasures = [sense.load_image("img/walker/Flower.png"),
                           sense.load_image("img/walker/Flower2.png"),
-                          sense.load_image("img/walker/Flower3.png")]
+                          sense.load_image("img/walker/Flower3.png"),
+						  sense.load_image("img/walker/ghost.png")
+						  ]
 
     def select(self):
         self.doBlink()
