@@ -26,9 +26,17 @@ class Radio(BaseMenuItem):
     # Let the radio react to gamepad activity
     def signal(self, code):
         print str(self.__class__) + " received Code " + str(code)
+        self.playLocal()
         self.deselect()
         if code == 291: # Green button             
-            self.playLocal()
+            self.radioProcess = subprocess.Popen("cvlc https://wdr-diemaus-live.icecastssl.wdr.de/wdr/diemaus/live/mp3/128/stream.mp3", shell=True, stderr=subprocess.STDOUT)        
+        if code == 289: # Red button             
+            self.radioProcess = subprocess.Popen("cvlc http://209.63.239.148:8000", shell=True, stderr=subprocess.STDOUT)        
+        if code == 290: # Yellow button
+            self.radioProcess = subprocess.Popen("cvlc http://69.30.243.166:10034/", shell=True, stderr=subprocess.STDOUT)
+        if code == 288: # Blue button
+            self.radioProcess = subprocess.Popen("cvlc http://51.255.235.165:5068/stream ", shell=True, stderr=subprocess.STDOUT)
+                           
 
     def playLocal(self):
         subprocess.Popen("mpg123 " + "sounds/397253__screamstudio__robot_part1.mp3", shell=True, stderr=subprocess.STDOUT)       
